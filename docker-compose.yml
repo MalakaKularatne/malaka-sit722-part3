@@ -1,1 +1,26 @@
-# Your Solution
+services:
+  book_catalog_service:
+    build:
+      context: ./book_catalog
+      dockerfile: Dockerfile
+    container_name: book_catalog_service
+    environment:
+      - DATABASE_URL=postgresql://sit722mkdb_exq5_user:EbwsVUopkOJILWCAhg6daT8weKYSp7Us@dpg-crifujm8ii6s73f33sug-a.oregon-postgres.render.com/sit722mkdb_exq5
+    ports:
+      - "8001:8000"
+    depends_on:
+      - inventory_management_service
+
+  inventory_management_service:
+    build:
+      context: ./inventory_management
+      dockerfile: Dockerfile
+    container_name: inventory_management_service
+    environment:
+      - DATABASE_URL=postgresql://sit722mkdb_exq5_user:EbwsVUopkOJILWCAhg6daT8weKYSp7Us@dpg-crifujm8ii6s73f33sug-a.oregon-postgres.render.com/sit722mkdb_exq5
+    ports:
+      - "8002:8000"
+
+networks:
+  default:
+    driver: bridge
